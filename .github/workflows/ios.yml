@@ -6,7 +6,7 @@ on:
 
 jobs:
   build:
-    name: build LTW
+    name: build Builetuananh-Wrapper
     runs-on: macos-latest
     steps:
       - name: Install dependencies
@@ -21,8 +21,8 @@ jobs:
       - name: Build
         run: gmake build
 
-      - name: Upload LTW
+      - name: Upload Builetuananh-Wrapper
         uses: actions/upload-artifact@v4
         with:
-          name: libLTW
-          path: build/libLTW.dylib
+          name: libBuiletuananh
+          path: build/libBuiletuananh.dylib
