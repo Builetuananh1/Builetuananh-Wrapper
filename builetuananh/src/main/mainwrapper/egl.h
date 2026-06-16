@@ -98,6 +98,6 @@ extern context_t* builetuananh_get_current_context(void);
 #define current_context builetuananh_get_current_context()
 
 extern void init_egl();
-extern GLenum builetuananh_textarget_query_param(GLenum target);
+extern GLenum get_textarget_query_param(GLenum target);
 
 #endif //POJAVLAUNCHER_EGL_H
