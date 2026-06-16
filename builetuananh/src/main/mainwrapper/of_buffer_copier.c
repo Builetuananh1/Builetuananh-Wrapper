@@ -1,3 +1,8 @@
+/**
+ * Created by: artDev
+ * Copyright (c) 2025 artDev, SerpentSpirale, CADIndie.
+ * For use under LGPL-3.0
+ */
 #include "proc.h"
 #include "egl.h"
 #include <stdbool.h>
@@ -15,7 +20,7 @@ void buffer_copier_init(context_t* context) {
     es3_functions.glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
     GLenum error = es3_functions.glGetError();
     if(error != 0) {
-        printf("Builetuananh: error while initializing buffer-copier: %x\n", error);
+        printf("LTW: error while initializing buffer-copier: %x\n", error);
         return;
     }
     copier->ready = true;
@@ -70,10 +75,10 @@ void glGetTexImage( 	GLenum target,
     es3_functions.glFramebufferRenderbuffer(GL_READ_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, 0);
     return;
     unsupported_esver:
-    printf("Builetuananh: glGetTexImage only supported on OpenGL ES 3.1");
+    printf("LTW: glGetTexImage only supported on OpenGL ES 3.1");
     return;
     unsupported:
-    printf("Builetuananh: unsupported parameters for glGetTexImage");
+    printf("LTW: unsupported parameters for glGetTexImage");
 }
 
 void glReadPixels(GLint x, GLint y, GLsizei width, GLsizei height, GLenum format, GLenum type, GLvoid * data) {
@@ -159,6 +164,7 @@ void glCopyTexSubImage2D(GLenum target,
     } else {
         es3_functions.glGetError();
         es3_functions.glCopyTexSubImage2D(target, level, xoffset, yoffset, x, y, width, height);
+        // The QCOM driver is a pathological liar and emits wrong GL errors. Abuse this to decide when we actually need to at least try copying depth.
         if(es3_functions.glGetError() == GL_INVALID_OPERATION) {
             texture_blit_framebuffer(target, level, xoffset, yoffset, x, y, width, height, true);
         }
